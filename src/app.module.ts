@@ -1,20 +1,25 @@
-import { Module } from '@nestjs/common';
+import { forwardRef, Module } from '@nestjs/common';
 import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { PhraseModule } from './phrase/phrase.module';
+import { KnexModule } from './knex/knex.module';
+import { LanguageModule } from './language/language.module';
+
 
 @Module({
   imports: [
-    TypeOrmModule.forRoot({
-      type: 'postgres',
-      host: 'localhost',
-      port: 5432,
-      username: 'your_username',
-      password: 'your_password',
-      database: 'phrase_db',
-      entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      synchronize: true,
-    }),
+     // GLOBAL CONFIGURATION MODULE
+     ConfigModule.forRoot({ isGlobal: true }),
+    
+     forwardRef(() => PhraseModule),
+    
+     KnexModule,
+
+     forwardRef(() => LanguageModule)
+     
+
   ],
   controllers: [AppController],
   providers: [AppService],
