@@ -43,12 +43,24 @@ CORS=http://localhost:3001
 Replace `<your-database-host>` with your database host name, `<your-database-user>` with your database user, `<your-database-password>` with your database password, and `<your-database-name>` with your database name.
 
 
+### Run the database migrations:
+Run the migrations
+``` bash
+npx knex migrate:latest
+```
+
+
+### Insert the Records in Database:
+Run the seed files
+``` bash
+npx knex seed:run
+```
+
 ### Run the development server:
 
 ``` bash
-npm run start:dev
+npm run start
 ```
- 
 
 Open [http://localhost:3000/](http://localhost:3000/) in your browser to see the API running.
 
