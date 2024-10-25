@@ -20,7 +20,7 @@ export async function up(knex: Knex): Promise<void> {
   await knex.schema.createTable('phrases', (table) => {
     table.uuid('uuid').primary().defaultTo(knex.raw('uuid_generate_v4()'));
     table.text('phrase').notNullable();
-    table.enu('status', ['active', 'pending', 'spam', 'deleted']).notNullable();
+    table.enu('status', ['ACTIVE', 'PENDING', 'SPAM', 'DELETED']).notNullable();
     table.timestamp('created_at').defaultTo(knex.fn.now());
     table.timestamp('updated_at').defaultTo(knex.fn.now());
     table.boolean('is_deleted').defaultTo(false);

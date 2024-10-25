@@ -8,35 +8,40 @@ export class PhraseController {
 
   /**
    * GET ALL PHRASES
-   * Fetches all phrases from the database with pagination and sorting
+   * Fetches all phrases from the database with pagination, sorting, and optional status filtering.
    * 
    * @param page - The current page for pagination (default is 1)
    * @param limit - The number of records per page (default is 10)
    * @param sort - The column by which results will be sorted (default is 'created_at')
    * @param order - The order of sorting (asc/desc)
-   * @returns An object containing the list of phrases
+   * @param status - Optional filter for the status of phrases
+   * @returns An object containing the list of phrases, pagination info, and total row count
    */
   @Get('get-all-phrase')
   async getAllPhrases(
     @Query('page') page: number = 1,
     @Query('limit') limit: number = 10,
     @Query('sort') sort: string = 'created_at',
-    @Query('order') order?: string,
+    @Query('order') order: string = 'asc',
+    @Query('status') status?: string, // Optional status filter
   ) {
-    return this.phraseService.getAllPhrases(page, limit, sort, order);
+    return this.phraseService.getAllPhrases(page, limit, sort, order, status);
   }
+
 
   /**
    * SEARCH PHRASES
-   * Searches for phrases containing the provided query string with optional pagination and sorting
+   * Searches for phrases containing the provided query string with optional pagination, sorting, and status filtering
    * 
    * @param query - The phrase text to search for
    * @param page - The page number for pagination (default: 1)
    * @param limit - The number of items per page (default: 10)
    * @param sort - Optional sorting parameter (default: 'created_at')
    * @param order - Optional sorting order (default: 'asc')
-   * @returns An object containing the search results, pagination, and sorting information
+   * @param status - Optional filter for the status of phrases
+   * @returns An object containing the search results, pagination, sorting information, and total count
    */
+
   @Get('/search')
   async searchPhrases(
     @Query('query') query: string,
@@ -44,9 +49,10 @@ export class PhraseController {
     @Query('limit') limit: number = 10, // Default to 10 items per page
     @Query('sort') sort: string = 'created_at', // Default sorting by 'created_at'
     @Query('order') order: string = 'asc', // Default order is ascending
+    @Query('status') status?: string, // Optional status filter
   ) {
     try {
-      const phrases = await this.phraseService.searchPhrases(query, page, limit, sort, order);
+      const phrases = await this.phraseService.searchPhrases(query, page, limit, sort, order, status);
 
       return {
         data: phrases.data, // The actual phrases
@@ -65,6 +71,7 @@ export class PhraseController {
       );
     }
   }
+
 
 
   /**
